@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react"
+import axios from "axios"
+import ChampionList from "./components/ChampionList"
 
 function App() {
+  const [champions, setChampions] = useState({})
+  const [championNames, setChampionNames] = useState([])
+
+  useEffect(() => {
+    axios
+      .get('http://ddragon.leagueoflegends.com/cdn/13.1.1/data/en_US/champion.json')
+      .then(res => {
+        setChampions(res.data.data)
+      })
+  }, [])
+
+  useEffect(() => {
+    const names = []
+    for (let c in champions){
+      names.push(c)
+    }
+    setChampionNames(names)
+  }, [champions])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      LOL Champion App
+      <ChampionList champions={champions} championNames={championNames}/>
     </div>
   );
 }
