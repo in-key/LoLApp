@@ -1,13 +1,19 @@
-const ChampionList = ({champions, championNames}) => {
-    return (
-        <div>
-                {championNames.map( name => {
-                    return (
-                        <div key={name}>{name}</div>
-                    )
-                })}
-        </div>
-    )
+import { NavLink } from "react-router-dom";
+
+const ChampionList = ({ championNames }) => {
+  return (
+    <div style={{display: 'inline-flex'}}>
+      {championNames.map((name) => {
+        return (
+          <div key={name}>
+            <NavLink to={`/${name}`}>
+              {name}
+            </NavLink>
+          </div>
+        )
+      })}
+    </div>
+  )
 }
 
 export default ChampionList
