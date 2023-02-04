@@ -5,26 +5,19 @@ import ChampionDetail from "./components/ChampionDetail"
 import { BrowserRouter, Route, Routes, NavLink } from "react-router-dom"
 
 function App() {
-  const [champions, setChampions] = useState({})
+  const [version, setVersion] = useState('')
   const [championNames, setChampionNames] = useState([])
 
   useEffect(() => {
-    axios
-      .get(
-        "http://ddragon.leagueoflegends.com/cdn/13.1.1/data/en_US/champion.json"
-      )
-      .then((res) => {
-        setChampions(res.data.data)
-      })
+    async function fetchData() {
+      const versionRes = await axios.get('https://ddragon.leagueoflegends.com/api/versions.json')
+      setVersion(versionRes.data[0])
+      const res = await axios.get(`http://ddragon.leagueoflegends.com/cdn/${versionRes.data[0]}/data/en_US/champion.json`)
+      setChampionNames(Object.keys(res.data.data))
+    }
+    fetchData()
   }, [])
 
-  useEffect(() => {
-    const names = []
-    for (let c in champions) {
-      names.push(c)
-    }
-    setChampionNames(names)
-  }, [champions])
 
   return (
     <BrowserRouter>
@@ -32,8 +25,8 @@ function App() {
         <NavLink to={'/'}>LOL Champion App</NavLink>
         <ChampionList championNames={championNames} />
         <Routes>
-        <Route path="/" element={<div>Home</div>}/>
-          <Route path="/:name" element={<ChampionDetail champions={champions}/>}/>
+          <Route path="/" element={<div>Home</div>}/>
+          <Route path="/:name" element={<ChampionDetail version={version}/>}/>
         </Routes>
       </div>
     </BrowserRouter>
