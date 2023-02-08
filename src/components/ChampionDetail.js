@@ -15,11 +15,11 @@ const ChampionDetail = ({version}) => {
         }
         fetchChampion()
     }, [name, version])
-    
+
     return (
         <div>
             <div>
-                { name }
+                { champion ? champion.name : name }
             </div>
             { champion &&
                 champion.skins.map( skin => {
