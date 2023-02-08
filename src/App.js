@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes, NavLink } from "react-router-dom"
 function App() {
   const [version, setVersion] = useState('')
   const [championNames, setChampionNames] = useState([])
+  const [filter, setFilter] = useState('')
 
   useEffect(() => {
     async function fetchData() {
@@ -18,12 +19,16 @@ function App() {
     fetchData()
   }, [])
 
+  const filteredNames = championNames.filter( n => n.toLowerCase().includes(filter.toLowerCase()))
 
   return (
     <BrowserRouter>
       <div>
         <NavLink to={'/'}>LOL Champion App</NavLink>
-        <ChampionList version={version} championNames={championNames} />
+        <div>
+          Search<input value={filter} onChange={(e) => setFilter(e.target.value)}/>
+        </div>
+        <ChampionList version={version} championNames={filteredNames} />
         <Routes>
           <Route path="/" element={<div>Home</div>}/>
           <Route path="/:name" element={<ChampionDetail version={version}/>}/>

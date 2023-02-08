@@ -15,7 +15,7 @@ const ChampionDetail = ({version}) => {
         }
         fetchChampion()
     }, [name, version])
-
+    
     return (
         <div>
             <div>
@@ -25,7 +25,8 @@ const ChampionDetail = ({version}) => {
                 champion.skins.map( skin => {
                     return (
                         <div key={skin.num}>
-                            <img src={`http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${name}_${skin.num.toString()}.jpg`} alt={`${name}-splashart-${skin.num.toString()}`}/>
+                            <img src={`http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion.id}_${skin.num}.jpg`} alt={`${champion.id}-splashart-${skin.num}`}/>
+                            <h2>{skin.name}</h2>
                         </div>
                     )
                 })
