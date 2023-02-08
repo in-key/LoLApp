@@ -23,7 +23,7 @@ function App() {
     <BrowserRouter>
       <div>
         <NavLink to={'/'}>LOL Champion App</NavLink>
-        <ChampionList championNames={championNames} />
+        <ChampionList version={version} championNames={championNames} />
         <Routes>
           <Route path="/" element={<div>Home</div>}/>
           <Route path="/:name" element={<ChampionDetail version={version}/>}/>
